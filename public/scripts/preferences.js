@@ -120,3 +120,15 @@ export { KEYS };
     });
   });
 })();
+// Convert UTC cache timestamps to local device time
+document.querySelectorAll('[data-local-time]').forEach((span) => {
+  const time = span.closest('[data-cached-at]');
+  if (!time) return;
+  const ms = Number(time.dataset.cachedAt);
+  if (!ms) return;
+  span.textContent = new Date(ms).toLocaleTimeString(undefined, {
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true,
+  });
+});

@@ -43,6 +43,12 @@ export const DEFAULT_FEEDS: FeedConfig[] = [
     homeUrl: 'https://www.bbc.co.uk/news',
   },
   {
+    id: 'bgr',
+    name: 'BGR',
+    url: 'https://bgr.com/feed/',
+    homeUrl: 'https://bgr.com',
+  },
+  {
     id: 'cio',
     name: 'CIO',
     url: 'https://www.cio.com/feed/',
@@ -67,16 +73,16 @@ export const DEFAULT_FEEDS: FeedConfig[] = [
     homeUrl: 'https://news.ycombinator.com',
   },
   {
-    id: 'houstonpublicmedia',
-    name: 'Houston Public Media',
-    url: 'https://www.houstonpublicmedia.org/feed/',
-    homeUrl: 'https://www.houstonpublicmedia.org',
-  },
-  {
     id: 'houstonlanding',
     name: 'Houston Landing',
     url: 'https://houstonlanding.org/feed',
     homeUrl: 'https://houstonlanding.org',
+  },
+  {
+    id: 'houstonpublicmedia',
+    name: 'Houston Public Media',
+    url: 'https://www.houstonpublicmedia.org/feed/',
+    homeUrl: 'https://www.houstonpublicmedia.org',
   },
   {
     id: 'krebs',
@@ -101,12 +107,6 @@ export const DEFAULT_FEEDS: FeedConfig[] = [
     name: 'NYT World News',
     url: 'https://rss.nytimes.com/services/xml/rss/nyt/World.xml',
     homeUrl: 'https://www.nytimes.com/section/world',
-  },
-  {
-    id: 'ieeespectrum',
-    name: 'IEEE Spectrum',
-    url: 'https://spectrum.ieee.org/feeds/type/news',
-    homeUrl: 'https://spectrum.ieee.org',
   },
   {
     id: 'techcrunch',

@@ -67,10 +67,10 @@ export const DEFAULT_FEEDS: FeedConfig[] = [
     homeUrl: 'https://news.ycombinator.com',
   },
   {
-    id: 'houstonpress',
-    name: 'Houston Press',
-    url: 'https://www.houstonpress.com/houston/Rss.xml',
-    homeUrl: 'https://www.houstonpress.com',
+    id: 'houstonpublicmedia',
+    name: 'Houston Public Media',
+    url: 'https://www.houstonpublicmedia.org/feed/',
+    homeUrl: 'https://www.houstonpublicmedia.org',
   },
   {
     id: 'houstonlanding',
@@ -103,10 +103,10 @@ export const DEFAULT_FEEDS: FeedConfig[] = [
     homeUrl: 'https://www.nytimes.com/section/world',
   },
   {
-    id: 'slashdot',
-    name: 'Slashdot',
-    url: 'http://rss.slashdot.org/Slashdot/slashdotMain',
-    homeUrl: 'https://slashdot.org',
+    id: 'ieeespectrum',
+    name: 'IEEE Spectrum',
+    url: 'https://spectrum.ieee.org/feeds/type/news',
+    homeUrl: 'https://spectrum.ieee.org',
   },
   {
     id: 'techcrunch',
@@ -117,8 +117,8 @@ export const DEFAULT_FEEDS: FeedConfig[] = [
   {
     id: 'guardian',
     name: 'The Guardian',
-    url: 'https://www.theguardian.com/uk/rss',
-    homeUrl: 'https://www.theguardian.com',
+    url: 'https://www.theguardian.com/world/rss',
+    homeUrl: 'https://www.theguardian.com/world',
   },
   {
     id: 'nextweb',

@@ -67,10 +67,10 @@ export const DEFAULT_FEEDS: FeedConfig[] = [
     homeUrl: 'https://news.ycombinator.com',
   },
   {
-    id: 'houstonbj',
-    name: 'Houston Business Journal',
-    url: 'https://feeds.bizjournals.com/bizj_houston',
-    homeUrl: 'https://www.bizjournals.com/houston',
+    id: 'houstonpress',
+    name: 'Houston Press',
+    url: 'https://www.houstonpress.com/houston/Rss.xml',
+    homeUrl: 'https://www.houstonpress.com',
   },
   {
     id: 'houstonlanding',

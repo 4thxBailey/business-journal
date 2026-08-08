@@ -69,14 +69,14 @@ export const DEFAULT_FEEDS: FeedConfig[] = [
   {
     id: 'houstonbj',
     name: 'Houston Business Journal',
-    url: 'https://www.bizjournals.com/houston/feed/latest/rss.xml',
+    url: 'https://feeds.bizjournals.com/bizj_houston',
     homeUrl: 'https://www.bizjournals.com/houston',
   },
   {
-    id: 'houstonchronicle',
-    name: 'Houston Chronicle',
-    url: 'https://www.chron.com/rss/feed/Top-News-11213332.php',
-    homeUrl: 'https://www.chron.com',
+    id: 'houstonlanding',
+    name: 'Houston Landing',
+    url: 'https://houstonlanding.org/feed',
+    homeUrl: 'https://houstonlanding.org',
   },
   {
     id: 'krebs',

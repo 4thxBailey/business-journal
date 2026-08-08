@@ -1,0 +1,66 @@
+---
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = '4TH AND BAILEY Business Journal',
+  description = 'Professional business intelligence and technology news curated for IT leaders, InfoSec officers, and enterprise decision-makers.',
+} = Astro.props;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="color-scheme" content="dark light" />
+
+    <!-- PWA / Apple -->
+    <meta name="theme-color" media="(prefers-color-scheme: dark)"  content="#0F1923" />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F0F4F8" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="4B Journal" />
+
+    <title>{title}</title>
+
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <!-- Preconnect for favicons -->
+    <link rel="preconnect" href="https://www.google.com" />
+
+    <style>
+      /* Inline critical CSS to prevent FOUC */
+      *, *::before, *::after { box-sizing: border-box; margin: 0; }
+      html { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif; }
+    </style>
+
+    <link rel="stylesheet" href="/styles/global.css" />
+  </head>
+
+  <body>
+    <!-- Skip navigation — first focusable element -->
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+
+    <slot />
+
+    <!-- Toast region — screen readers announce alerts here -->
+    <div
+      class="toast-region"
+      role="status"
+      aria-live="polite"
+      aria-label="Notifications"
+      id="toast-region"
+    ></div>
+
+    <script src="/scripts/preferences.js" defer></script>
+    <script src="/scripts/settings.js"     defer></script>
+    <script src="/scripts/show-more.js"    defer></script>
+    <script src="/scripts/refresh.js"      defer></script>
+  </body>
+</html>

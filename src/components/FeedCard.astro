@@ -1,0 +1,137 @@
+---
+import type { CachedFeed } from '../lib/cache.js';
+
+interface Props {
+  feed: CachedFeed;
+}
+
+const { feed } = Astro.props;
+const { config, data, cachedAt } = feed;
+const { items, status } = data;
+
+const isOk      = status === 'ok';
+const isLimited = status === 'limited';
+const isError   = status === 'error';
+
+const faviconUrl = `https://www.google.com/s2/favicons?sz=32&domain_url=${encodeURIComponent(config.homeUrl)}`;
+const cachedTime = new Date(cachedAt).toLocaleTimeString('en-US', {
+  hour: 'numeric',
+  minute: '2-digit',
+  hour12: true,
+});
+---
+
+<article
+  class:list={[
+    'feed-card',
+    config.pinned && 'feed-card--pinned',
+    isError     && 'feed-card--error',
+    isLimited   && 'feed-card--limited',
+  ]}
+  data-feed-id={config.id}
+  aria-label={`${config.name} news feed`}
+>
+  <!-- Feed header -->
+  <header class="feed-card__header">
+    <img
+      class="feed-card__favicon"
+      src={faviconUrl}
+      alt=""
+      role="presentation"
+      width="16"
+      height="16"
+      data-favicon
+      loading="lazy"
+    />
+
+    <a
+      href={config.homeUrl}
+      class="feed-card__source-link"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={`Visit ${config.name} website (opens in new tab)`}
+    >
+      <h2 class="feed-card__source-name">{config.name}</h2>
+    </a>
+
+    {config.pinned && (
+      <span class="feed-card__pinned-badge" aria-label="Pinned feed">
+        Pinned
+      </span>
+    )}
+  </header>
+
+  <!-- Feed body -->
+  <div class="feed-card__body" role="region" aria-label={`Articles from ${config.name}`}>
+    {isError && (
+      <p>
+        Unable to load feed.{' '}
+        {data.error && (
+          <span class="visually-hidden">Error: {data.error}</span>
+        )}
+      </p>
+    )}
+
+    {isLimited && items.length === 0 && (
+      <p>No articles available right now.</p>
+    )}
+
+    {items.length > 0 && (
+      <ol class="feed-list" role="list" aria-label={`${config.name} articles`}>
+        {items.map((item, i) => (
+          <li class="feed-list__item">
+            <div class="feed-list__row">
+              <a
+                href={item.link}
+                class="feed-article-link"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`${item.title} — opens in new tab`}
+              >
+                {item.title}
+              </a>
+
+              {item.commentsLink && (
+                <a
+                  href={item.commentsLink}
+                  class="feed-comments-link"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`View discussion for: ${item.title} (opens in new tab)`}
+                >
+                  <svg aria-hidden="true" focusable="false">
+                    <use href="#icon-comment" />
+                  </svg>
+                </a>
+              )}
+            </div>
+          </li>
+        ))}
+      </ol>
+    )}
+
+    {isLimited && items.length > 0 && (
+      <p class="feed-card__cached-at" aria-live="polite">
+        Limited content — {items.length} article{items.length !== 1 ? 's' : ''} available
+      </p>
+    )}
+  </div>
+
+  <!-- Show more / footer -->
+  {items.length > 0 && (
+    <footer class="feed-card__footer">
+      <time class="feed-card__cached-at" datetime={new Date(cachedAt).toISOString()}>
+        Updated {cachedTime}
+      </time>
+
+      <button
+        class="show-more-btn"
+        aria-expanded="false"
+        aria-controls={`feed-list-${config.id}`}
+        data-show-more
+      >
+        Show more
+      </button>
+    </footer>
+  )}
+</article>

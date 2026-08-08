@@ -1,0 +1,231 @@
+---
+import type { CachedFeed } from '../lib/cache.js';
+
+interface Props {
+  feeds: CachedFeed[];
+}
+
+const { feeds } = Astro.props;
+---
+
+<div
+  id="settings-dialog"
+  class="settings-dialog"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="settings-dialog-title"
+  aria-hidden="true"
+>
+  <!-- Backdrop -->
+  <div
+    class="settings-dialog__backdrop"
+    aria-hidden="true"
+    data-settings-backdrop
+  ></div>
+
+  <!-- Panel -->
+  <div class="settings-dialog__panel">
+    <div class="settings-dialog__header">
+      <h2 class="settings-dialog__title" id="settings-dialog-title">Settings</h2>
+      <button
+        class="btn btn-icon"
+        aria-label="Close settings"
+        data-settings-close
+      >
+        <svg aria-hidden="true" focusable="false">
+          <use href="#icon-close" />
+        </svg>
+      </button>
+    </div>
+
+    <div class="settings-dialog__body">
+
+      <!-- Display preferences -->
+      <section aria-labelledby="prefs-label">
+        <p class="settings-section__label" id="prefs-label">Display</p>
+
+        <div class="toggle-row">
+          <label class="toggle-row__label" for="toggle-favicons">
+            Show source favicons
+          </label>
+          <label class="toggle" aria-label="Toggle source favicons">
+            <input
+              type="checkbox"
+              id="toggle-favicons"
+              data-pref="showFavicons"
+              checked
+              aria-describedby="favicons-hint"
+            />
+            <span class="toggle__track"></span>
+          </label>
+        </div>
+        <p id="favicons-hint" class="visually-hidden">
+          When enabled, the source website icon appears next to each feed name.
+        </p>
+
+        <div class="toggle-row" style="margin-top: var(--sp-sm)">
+          <label class="toggle-row__label" for="toggle-textsize">
+            Large text
+          </label>
+          <label class="toggle" aria-label="Toggle large text size">
+            <input
+              type="checkbox"
+              id="toggle-textsize"
+              data-pref="largeText"
+              aria-describedby="textsize-hint"
+            />
+            <span class="toggle__track"></span>
+          </label>
+        </div>
+        <p id="textsize-hint" class="visually-hidden">
+          When enabled, article text is displayed at a larger size.
+        </p>
+      </section>
+
+      <!-- Feed order and visibility -->
+      <section aria-labelledby="feeds-label">
+        <p class="settings-section__label" id="feeds-label">
+          Feeds — drag to reorder
+        </p>
+
+        <ol
+          class="feed-reorder-list"
+          id="feed-reorder-list"
+          role="listbox"
+          aria-label="Reorder news feeds"
+          aria-multiselectable="false"
+        >
+          {feeds.map((feed, index) => (
+            <li
+              class="feed-reorder-item"
+              data-feed-id={feed.config.id}
+              data-pinned={feed.config.pinned ? 'true' : 'false'}
+              draggable={!feed.config.pinned}
+              role="option"
+              aria-selected="false"
+              aria-grabbed={!feed.config.pinned ? 'false' : undefined}
+              aria-label={`${feed.config.name}${feed.config.pinned ? ', pinned feed' : ''}`}
+            >
+              <span
+                class="feed-reorder-item__drag-handle"
+                aria-hidden="true"
+              >
+                <svg focusable="false">
+                  <use href="#icon-drag" />
+                </svg>
+              </span>
+
+              <span class="feed-reorder-item__name">{feed.config.name}</span>
+
+              {feed.config.pinned ? (
+                <span class="feed-reorder-item__pinned" aria-label="This feed is pinned and cannot be removed">
+                  Pinned
+                </span>
+              ) : (
+                <>
+                  <div class="feed-reorder-item__move-btns" aria-label={`Move ${feed.config.name}`}>
+                    <button
+                      class="btn"
+                      aria-label={`Move ${feed.config.name} up`}
+                      data-move="up"
+                      data-feed-id={feed.config.id}
+                    >▲</button>
+                    <button
+                      class="btn"
+                      aria-label={`Move ${feed.config.name} down`}
+                      data-move="down"
+                      data-feed-id={feed.config.id}
+                    >▼</button>
+                  </div>
+
+                  <button
+                    class="btn feed-reorder-item__remove"
+                    aria-label={`Remove ${feed.config.name} from feed list`}
+                    data-remove-feed={feed.config.id}
+                    title={`Remove ${feed.config.name}`}
+                  >
+                    <svg aria-hidden="true" focusable="false" style="width:14px;height:14px;fill:currentColor">
+                      <use href="#icon-remove" />
+                    </svg>
+                  </button>
+                </>
+              )}
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <!-- Add custom feed -->
+      <section aria-labelledby="add-feed-label">
+        <p class="settings-section__label" id="add-feed-label">Add custom feed</p>
+
+        <div class="add-feed-form" role="form" aria-label="Add a custom RSS or Atom feed">
+          <div class="form-field">
+            <label for="custom-feed-name">Display name</label>
+            <input
+              type="text"
+              id="custom-feed-name"
+              name="custom-feed-name"
+              placeholder="e.g. Microsoft Security Blog"
+              autocomplete="off"
+              maxlength="80"
+              aria-required="true"
+              aria-describedby="custom-feed-name-error"
+            />
+            <span
+              id="custom-feed-name-error"
+              class="form-field__error"
+              role="alert"
+              aria-hidden="true"
+            ></span>
+          </div>
+
+          <div class="form-field">
+            <label for="custom-feed-url">Feed URL (RSS or Atom)</label>
+            <input
+              type="url"
+              id="custom-feed-url"
+              name="custom-feed-url"
+              placeholder="https://example.com/feed.xml"
+              autocomplete="off"
+              aria-required="true"
+              aria-describedby="custom-feed-url-error"
+            />
+            <span
+              id="custom-feed-url-error"
+              class="form-field__error"
+              role="alert"
+              aria-hidden="true"
+            ></span>
+          </div>
+
+          <button
+            class="btn btn-primary"
+            id="add-feed-btn"
+            aria-label="Add custom feed to journal"
+            data-add-feed
+          >
+            <svg aria-hidden="true" focusable="false" style="width:16px;height:16px;fill:currentColor;margin-right:0.375rem">
+              <use href="#icon-add" />
+            </svg>
+            Add feed
+          </button>
+        </div>
+      </section>
+
+      <!-- Reset -->
+      <section aria-labelledby="reset-label">
+        <p class="settings-section__label" id="reset-label">Reset</p>
+        <button
+          class="btn btn-danger"
+          id="reset-feeds-btn"
+          aria-label="Reset all feeds and preferences to defaults"
+          data-reset
+        >
+          Reset to defaults
+        </button>
+      </section>
+
+    </div>
+  </div>
+</div>

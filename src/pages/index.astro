@@ -1,0 +1,95 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Icons from '../components/Icons.astro';
+import FeedCard from '../components/FeedCard.astro';
+import SettingsDialog from '../components/SettingsDialog.astro';
+import { initCache, getAllFeeds } from '../lib/cache.js';
+
+// Initialise cache on first request — no-op on subsequent requests
+await initCache();
+const feeds = getAllFeeds();
+---
+
+<Layout>
+  <Icons />
+
+  <!-- Site Header -->
+  <header class="site-header" role="banner">
+    <div class="site-header__brand">
+      <div class="site-header__brand-mark">
+        <svg aria-hidden="true" focusable="false">
+          <use href="#icon-brand" />
+        </svg>
+        <span>4TH AND BAILEY</span>
+      </div>
+      <div class="site-header__divider" aria-hidden="true"></div>
+      <span class="site-header__sub">Business Journal</span>
+    </div>
+
+    <nav class="site-header__controls" aria-label="Journal controls">
+      <button
+        class="btn btn-icon"
+        id="refresh-btn"
+        aria-label="Refresh all feeds"
+        title="Refresh feeds"
+        data-refresh
+      >
+        <svg aria-hidden="true" focusable="false">
+          <use href="#icon-refresh" />
+        </svg>
+      </button>
+
+      <button
+        class="btn btn-icon"
+        id="settings-btn"
+        aria-label="Open settings"
+        aria-expanded="false"
+        aria-controls="settings-dialog"
+        title="Settings"
+        data-settings-trigger
+      >
+        <svg aria-hidden="true" focusable="false">
+          <use href="#icon-settings" />
+        </svg>
+      </button>
+    </nav>
+  </header>
+
+  <!-- Main content -->
+  <main class="site-main" id="main-content" tabindex="-1">
+    {feeds.length === 0 ? (
+      <p role="status" aria-live="polite" style="text-align:center; padding: 3rem 0; color: var(--fg-muted);">
+        Loading feeds&hellip;
+      </p>
+    ) : (
+      <div
+        class="feed-grid"
+        role="feed"
+        aria-label="News feeds"
+        aria-busy="false"
+      >
+        {feeds.map((feed) => (
+          <FeedCard feed={feed} />
+        ))}
+      </div>
+    )}
+  </main>
+
+  <!-- Settings dialog (rendered but hidden) -->
+  <SettingsDialog feeds={feeds} />
+
+  <!-- Footer -->
+  <footer class="site-footer" role="contentinfo">
+    <span class="site-footer__brand">
+      &copy; {new Date().getFullYear()} 4th and Bailey, LLC
+    </span>
+    <nav class="site-footer__links" aria-label="Footer links">
+      <a href="https://trust-lionel.com" class="site-footer__link" target="_blank" rel="noopener noreferrer">
+        Lionel Mosley | ahr-ki-tekt
+      </a>
+      <a href="https://4thandbailey.com" class="site-footer__link" target="_blank" rel="noopener noreferrer">
+        4th and Bailey
+      </a>
+    </nav>
+  </footer>
+</Layout>

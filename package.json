@@ -1,0 +1,19 @@
+{
+  "name": "business-journal",
+  "type": "module",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "start": "node dist/server/entry.mjs"
+  },
+  "dependencies": {
+    "@astrojs/node": "^11.1.0",
+    "astro": "^7.2.0",
+    "fast-xml-parser": "^4.4.1"
+  },
+  "engines": {
+    "node": ">=24.0.0"
+  }
+}

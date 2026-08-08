@@ -21,6 +21,8 @@ const parser = new XMLParser({
   isArray: (name) =>
     ['item', 'entry', 'link'].includes(name),
   allowBooleanAttributes: true,
+  htmlEntities: true,
+  processEntities: true,
 });
 
 function extractAtomLink(links: unknown): string {

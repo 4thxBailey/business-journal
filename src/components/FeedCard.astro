@@ -121,7 +121,7 @@ const cachedTime = new Date(cachedAt).toLocaleTimeString('en-US', {
   {items.length > 0 && (
     <footer class="feed-card__footer">
       <time class="feed-card__cached-at" datetime={new Date(cachedAt).toISOString()} data-cached-at={cachedAt}>
-  Updated <span data-local-time>{cachedTime}</span>
+  Updated <span data-local-time>—</span>
 </time>
 
       <button
